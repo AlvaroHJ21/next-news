@@ -2,8 +2,6 @@ import { create } from 'zustand';
 import type { Article, NewsResponse } from '@/interfaces';
 import { formatDate, getYesterday } from '@/utils/format';
 
-const NEXT_PUBLIC_NEWS_API = process.env.NEXT_PUBLIC_NEWS_API!;
-
 interface NewsState {
   articles: Article[];
   isLoading: boolean;
@@ -22,13 +20,11 @@ export const useNewsStore = create<NewsState>()((set) => ({
       to: formatDate(getYesterday()),
       sortBy: 'popularity',
       pageSize: '20',
-      apiKey: NEXT_PUBLIC_NEWS_API,
     };
     set({ isLoading: true });
-    fetch('https://newsapi.org/v2/everything?' + new URLSearchParams(newsParams))
+    fetch('/api/news?' + new URLSearchParams(newsParams))
       .then((resp) => resp.json())
       .then((data: NewsResponse) => {
-        // console.log(data.articles);
         set({ articles: data.articles, isLoading: false });
       });
   },
