@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import type { Article, NewsResponse } from '@/interfaces';
 import { formatDate, getYesterday } from '@/utils/format';
 
-const NEWS_API_KEY = '8b396ec1dc6e4dc795361981cbe666b5';
+const NEXT_PUBLIC_NEWS_API = process.env.NEXT_PUBLIC_NEWS_API!;
 
 interface NewsState {
   articles: Article[];
@@ -22,7 +22,7 @@ export const useNewsStore = create<NewsState>()((set) => ({
       to: formatDate(getYesterday()),
       sortBy: 'popularity',
       pageSize: '20',
-      apiKey: NEWS_API_KEY,
+      apiKey: NEXT_PUBLIC_NEWS_API,
     };
     set({ isLoading: true });
     fetch('https://newsapi.org/v2/everything?' + new URLSearchParams(newsParams))

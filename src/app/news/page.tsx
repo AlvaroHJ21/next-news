@@ -2,22 +2,19 @@ import { ArticlesResults } from '@/components/news/articles-results';
 import { Header } from '@/components/shared/header/header';
 import { NewsResponse } from '@/interfaces';
 import { formatDate, getYesterday } from '@/utils/format';
-const NEWS_API_KEY = '8b396ec1dc6e4dc795361981cbe666b5';
-
 
 const newsParams = {
-  q: 'tech',
+  q: 'technology',
   from: formatDate(getYesterday()),
   to: formatDate(getYesterday()),
   sortBy: 'popularity',
   pageSize: '20',
-  apiKey: NEWS_API_KEY,
+  apiKey: process.env.NEWS_API_KEY!,
 };
 
 export default async function NewsPage() {
   const resp = await fetch('https://newsapi.org/v2/everything?' + new URLSearchParams(newsParams));
   const data = (await resp.json()) as NewsResponse;
-
   return (
     <>
       <Header />
